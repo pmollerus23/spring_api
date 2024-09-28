@@ -14,6 +14,8 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String passwordString;
+    private String ipString;
 
     // Getters and Setters
     public Long getId() {
@@ -39,5 +41,23 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    
+    public String getIpString() {
+		return ipString;
+	}
+
+	public void setIpString(String ipString) {
+		this.ipString = ipString;
+	}
+	
+	public String getPasswordString() {
+    	return passwordString;
+    }
+
+	public void setPasswordString(String passwordString) {
+		this.passwordString = passwordString;
+	}
+
 }
 
