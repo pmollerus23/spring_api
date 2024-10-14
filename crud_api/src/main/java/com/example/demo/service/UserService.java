@@ -34,7 +34,7 @@ public class UserService {
 		return ResponseEntity.status(HttpStatus.CREATED).body("user created successfully");
 	}
 
-	public ResponseEntity<String> deleteUser(Long id) {
+	public ResponseEntity<String> deleteUser(Integer id) {
 		if (userRepository.existsById(id)) {
 			userRepository.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("deleted user successfully");
@@ -45,7 +45,7 @@ public class UserService {
 
 	public ResponseEntity<String> loginRequestService(LoginRequest loginRequest) {
 
-		Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+		Optional<User> userOptional = userRepository.findByEmail(loginRequest.getUsername());
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 			if (user.getPassword().equals(loginRequest.getPassword())) {

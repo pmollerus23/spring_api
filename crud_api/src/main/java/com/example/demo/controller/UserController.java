@@ -10,13 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.PublicKey;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -49,7 +51,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> deleteUser(@RequestParam("id") Long id) {
+	public ResponseEntity<String> deleteUser(@RequestParam("id") Integer id) {
 //    	User deletedUser = userService.deleteUser(user);
 //    	return ResponseEntity.ok("deleted");
 		return userService.deleteUser(id);
@@ -67,6 +69,22 @@ public class UserController {
 		return userService.loginRequestService(loginRequest);
 
 	}
+	
+	@GetMapping("/me")
+    public ResponseEntity<User> authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User currentUser = (User) authentication.getPrincipal();
+
+        return ResponseEntity.ok(currentUser);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<User>> allUsers() {
+        List <User> users = userService.getAllUsers();
+
+        return ResponseEntity.ok(users);
+    }
 
 	// Additional endpoints can be added as needed
 }
